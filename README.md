@@ -256,8 +256,8 @@ The beam width and center calculations are performed according to ISO 11146 usin
    $$\sigma_y^2 = \frac{\sum((y_i - \bar{y})^2 \cdot I_i)}{\sum I_i}$$
 
 3. **D4σ Beam Width:**
-   $$D4\sigma_x = 4\sqrt{\sigma_x^2}$$
-   $$D4\sigma_y = 4\sqrt{\sigma_y^2}$$
+   $$D4\sigma_{x} = 4{\sqrt{\sigma_{x}^2}}$$
+   $$D4\sigma_{y} = 4{\sqrt{\sigma_{y}^2}}$$
    This represents the width containing ~95% of the beam's power.
 
 ### Statistical Moments
