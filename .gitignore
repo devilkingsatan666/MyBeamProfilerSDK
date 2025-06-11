@@ -6,6 +6,9 @@ out/
 x64/
 x86/
 
+# Benchmark data
+data/
+
 # CMake files
 CMakeCache.txt
 CMakeFiles/
