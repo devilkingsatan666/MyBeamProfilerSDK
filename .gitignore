@@ -23,6 +23,7 @@ CTestTestfile.cmake
 .idea/
 *.swp
 *.swo
+*.json
 
 # Compiled files
 *.o
