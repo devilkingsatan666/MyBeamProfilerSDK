@@ -53,7 +53,7 @@ vcpkg install gtest:x64-windows        # For unit testing
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/beam_profiler_sdk.git
+git clone https://github.com/devilkingsatan666/MyBeamProfilerSDK.git
 cd beam_profiler_sdk
 ```
 
