@@ -22,10 +22,18 @@ protected:
 };
 
 TEST_F(BeamProfileTest, CompareWithBaseline) {
-    // Get all TIFF files in the BeamProfileData directory
-    std::string data_dir = "../BeamProfileData";
+    // Get all TIFF files in the data directory
     std::vector<std::string> tiff_files;
-    for (const auto& entry : std::filesystem::directory_iterator(data_dir)) {
+    std::string data_dir_mosa = "../data/mosa";
+    std::string data_dir_oap = "../data/oap";
+
+    for (const auto& entry : std::filesystem::directory_iterator(data_dir_oap)) {
+        if (entry.path().extension() == ".tif") {
+            tiff_files.push_back(entry.path().string());
+        }
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(data_dir_mosa)) {
         if (entry.path().extension() == ".tif") {
             tiff_files.push_back(entry.path().string());
         }
