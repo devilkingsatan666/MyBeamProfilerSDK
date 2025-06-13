@@ -19,7 +19,40 @@ namespace beamprofile {
 namespace beam_analysis {
 
 // Forward declaration of fft function
-void fft(std::vector<std::complex<double>>& x);
+// Helper function for FFT
+void fft(std::vector<std::complex<double>>& x) {
+    const int n = static_cast<int>(x.size());
+    if (n <= 1) return;
+    
+    // Bit reversal
+    for (int i = 0; i < n; ++i) {
+        int j = 0;
+        for (int k = 0; k < static_cast<int>(std::log2(n)); ++k) {
+            j = (j << 1) | (i >> k & 1);
+        }
+        if (j > i) {
+            std::swap(x[i], x[j]);
+        }
+    }
+    
+    // Cooley-Tukey FFT
+    for (int size = 2; size <= n; size *= 2) {
+        double angle = -2 * M_PI / size;
+        std::complex<double> w(1, 0);
+        std::complex<double> wn(std::cos(angle), std::sin(angle));
+        
+        for (int i = 0; i < n; i += size) {
+            std::complex<double> temp(1, 0);
+            for (int j = 0; j < size / 2; ++j) {
+                std::complex<double> u = x[i + j];
+                std::complex<double> t = temp * x[i + j + size / 2];
+                x[i + j] = u + t;
+                x[i + j + size / 2] = u - t;
+                temp *= wn;
+            }
+        }
+    }
+}
 
 std::vector<float> convertToFloat(const void* image, const AnalysisConfig& config) {
     std::vector<float> output(config.width * config.height);
@@ -702,41 +735,6 @@ std::pair<double, std::vector<double>> calculateJitter(
     }
     
     return {rms_jitter, psd};
-}
-
-// Helper function for FFT
-void fft(std::vector<std::complex<double>>& x) {
-    const int n = static_cast<int>(x.size());
-    if (n <= 1) return;
-    
-    // Bit reversal
-    for (int i = 0; i < n; ++i) {
-        int j = 0;
-        for (int k = 0; k < static_cast<int>(std::log2(n)); ++k) {
-            j = (j << 1) | (i >> k & 1);
-        }
-        if (j > i) {
-            std::swap(x[i], x[j]);
-        }
-    }
-    
-    // Cooley-Tukey FFT
-    for (int size = 2; size <= n; size *= 2) {
-        double angle = -2 * M_PI / size;
-        std::complex<double> w(1, 0);
-        std::complex<double> wn(std::cos(angle), std::sin(angle));
-        
-        for (int i = 0; i < n; i += size) {
-            std::complex<double> temp(1, 0);
-            for (int j = 0; j < size / 2; ++j) {
-                std::complex<double> u = x[i + j];
-                std::complex<double> t = temp * x[i + j + size / 2];
-                x[i + j] = u + t;
-                x[i + j + size / 2] = u - t;
-                temp *= wn;
-            }
-        }
-    }
 }
 
 } // namespace beam_analysis
